@@ -14,6 +14,9 @@ message Stream {
 
         UBLOX_TEXT = 20;
         UBLOX_BINARY = 21;
+
+        CUSTOM_TEXT = 30;
+        CUSTOM_BINARY = 31;
     }
     optional Format format = 1;
 

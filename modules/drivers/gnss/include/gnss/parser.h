@@ -57,6 +57,9 @@ public:
     // Return a pointer to a u-blox parser. The caller should take ownership.
     static Parser* create_ublox();
 
+    // Return a pointer to a custom parser. The caller should take ownership.
+    static Parser* create_custom();
+
     virtual ~Parser() {}
 
     // Updates the parser with new data. The caller must keep the data valid until get_message()
@@ -90,7 +93,7 @@ protected:
     Parser() {}
 
     // Point to the beginning and end of data. Do not take ownership.
-    const uint8_t* _data = nullptr;
+    const uint8_t* _data = nullptr;     //从设备接收到的消息指针
     const uint8_t* _data_end = nullptr;
 
 private:

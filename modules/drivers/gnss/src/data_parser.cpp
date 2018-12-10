@@ -68,7 +68,8 @@ Parser* create_parser(config::Stream::Format format, bool is_base_station = fals
     switch (format) {
     case config::Stream::NOVATEL_BINARY:
         return Parser::create_novatel();
-
+    case config::Stream::CUSTOM_BINARY:
+        return Parser::create_custom();
     default:
         return nullptr;
     }
