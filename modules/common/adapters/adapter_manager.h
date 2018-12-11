@@ -49,14 +49,14 @@ namespace adapter {
 /// true, `callback`(if there's one)) in AdapterManager.
 #define REGISTER_ADAPTER(name)                                                 \
  public:                                                                       \
-  static void Enable##name(const std::string &topic_name,                      \
+  static void Enable##name(const std::string &topic_name,                      \// 打开对该Topic数据的操作
                            AdapterConfig::Mode mode,                           \
                            int message_history_limit) {                        \
     CHECK(message_history_limit > 0)                                           \
         << "Message history limit must be greater than 0";                     \
-    instance()->InternalEnable##name(topic_name, mode, message_history_limit); \
+    instance()->InternalEnable##name(topic_name, mode, message_history_limit); \//instance()为AdapterManager类的单例
   }                                                                            \
-  static name##Adapter *Get##name() {                                          \
+  static name##Adapter *Get##name() {                                          \// 获取Topic适配器
     return instance()->InternalGet##name();                                    \
   }                                                                            \
   static void Feed##name##ProtoFile(const std::string &proto_file) {           \
@@ -64,10 +64,10 @@ namespace adapter {
         << "Initialize adapter before feeding protobuf";                       \
     Get##name()->FeedProtoFile(proto_file);                                    \
   }                                                                            \
-  static void Publish##name(const name##Adapter::DataType &data) {             \
+  static void Publish##name(const name##Adapter::DataType &data) {             \// 发布Topic最新数据
     instance()->InternalPublish##name(data);                                   \
   }                                                                            \
-  static void Fill##name##Header(const std::string &module_name,               \
+  static void Fill##name##Header(const std::string &module_name,               \// 填充Topic的头部信息
                                  apollo::common::Header *header) {             \
     instance()->name##_->FillHeader(module_name, header);                      \
   }                                                                            \
@@ -87,7 +87,7 @@ namespace adapter {
   ros::Publisher name##publisher_;                                             \
   ros::Subscriber name##subscriber_;                                           \
                                                                                \
-  void InternalEnable##name(const std::string &topic_name,                     \
+  void InternalEnable##name(const std::string &topic_name,                     \// 生效Topic，实例化消息管理器  
                             AdapterConfig::Mode mode,                          \
                             int message_history_limit) {                       \
     name##_.reset(                                                             \
@@ -104,8 +104,8 @@ namespace adapter {
                                                                                \
     observers_.push_back([this]() { name##_->Observe(); });                    \
   }                                                                            \
-  name##Adapter *InternalGet##name() { return name##_.get(); }                 \
-  void InternalPublish##name(const name##Adapter::DataType &data) {            \
+  name##Adapter *InternalGet##name() { return name##_.get(); }                 \// 获取消息管理器对象本身
+  void InternalPublish##name(const name##Adapter::DataType &data) {            \// 发布消息
     name##publisher_.publish(data);                                            \
   }
 
@@ -178,10 +178,10 @@ class AdapterManager {
   REGISTER_ADAPTER(ChassisDetail);
   REGISTER_ADAPTER(ControlCommand);
   REGISTER_ADAPTER(Decision);
-  REGISTER_ADAPTER(Gps);
+  REGISTER_ADAPTER(Gps);                  //注册gps适配器
   REGISTER_ADAPTER(Imu);
   REGISTER_ADAPTER(Camera);
-  REGISTER_ADAPTER(Localization);
+  REGISTER_ADAPTER(Localization);         //注册定位适配器
   REGISTER_ADAPTER(Monitor);
   REGISTER_ADAPTER(Pad);
   REGISTER_ADAPTER(PerceptionObstacles);

@@ -47,7 +47,7 @@ using ChassisAdapter = Adapter<::apollo::canbus::Chassis>;
 using ChassisDetailAdapter = Adapter<::apollo::canbus::ChassisDetail>;
 using ControlCommandAdapter = Adapter<::apollo::control::ControlCommand>;
 using DecisionAdapter = Adapter<::apollo::decision::DecisionResult>;
-using GpsAdapter = Adapter<apollo::localization::Gps>;
+using GpsAdapter = Adapter<apollo::localization::Gps>;                      //Gps适配器，Gps = gps.pb.h
 using ImuAdapter = Adapter<::apollo::localization::Imu>;
 using CameraAdapter = Adapter<::apollo::localization::Camera>;
 using LocalizationAdapter = Adapter<apollo::localization::LocalizationEstimate>;

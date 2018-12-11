@@ -35,7 +35,7 @@ std::string Localization::Name() const {
 void Localization::RegisterLocalizationMethods() {
   localization_factory_.Register(
       LocalizationConfig::RTK,
-      []() -> LocalizationBase* { return new RTKLocalization(); });
+      []() -> LocalizationBase* { return new RTKLocalization(); });//注册RTKLocalization
 
   // TODO(Dong): Implement camera based localization method.
   localization_factory_.Register(
@@ -45,7 +45,7 @@ void Localization::RegisterLocalizationMethods() {
 
 Status Localization::Init() {
   RegisterLocalizationMethods();
-  if (!apollo::common::util::GetProtoFromFile(FLAGS_localization_config_file,
+  if (!apollo::common::util::GetProtoFromFile(FLAGS_localization_config_file,//读取配置文件到config_
                                               &config_)) {
     AERROR << "failed to load localization config file "
            << FLAGS_localization_config_file;
@@ -59,7 +59,7 @@ Status Localization::Init() {
 
 Status Localization::Start() {
   localization_ =
-      localization_factory_.CreateObject(config_.localization_type());
+      localization_factory_.CreateObject(config_.localization_type());//根据配置文件创建localization_
   if (!localization_) {
     return Status(ErrorCode::LOCALIZATION_ERROR,
                   "localization is not initialized with config : " +

@@ -37,7 +37,7 @@ void AdapterManager::Init(const std::string& adapter_config_filename) {
   // Parse config file
   AdapterManagerConfig configs;
   CHECK(
-      apollo::common::util::GetProtoFromFile(adapter_config_filename, &configs))
+      apollo::common::util::GetProtoFromFile(adapter_config_filename, &configs))//adapter_config_filename = rtk_adapter.conf
       << "Unable to parse adapter config file " << adapter_config_filename;
   AINFO << "Init AdapterManger config:" << configs.DebugString();
   Init(configs);
@@ -51,7 +51,7 @@ void AdapterManager::Init(const AdapterManagerConfig& configs) {
   for (const auto& config : configs.config()) {
     switch (config.type()) {
       case AdapterConfig::GPS:
-        EnableGps(FLAGS_gps_topic, config.mode(),
+        EnableGps(FLAGS_gps_topic, config.mode(),         //方法在REGISTER_ADAPTER宏里Enable##name
                   config.message_history_limit());
         break;
       case AdapterConfig::IMU:
@@ -63,7 +63,7 @@ void AdapterManager::Init(const AdapterManagerConfig& configs) {
                       config.message_history_limit());
         break;
       case AdapterConfig::LOCALIZATION:
-        EnableLocalization(FLAGS_localization_topic, config.mode(),
+        EnableLocalization(FLAGS_localization_topic, config.mode(),//方法在REGISTER_ADAPTER宏里Enable##name
                            config.message_history_limit());
         break;
       case AdapterConfig::PERCEPTION_OBSTACLES:

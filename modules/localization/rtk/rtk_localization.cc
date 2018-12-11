@@ -36,14 +36,14 @@ RTKLocalization::RTKLocalization()
       map_offset_{FLAGS_map_offset_x, FLAGS_map_offset_y, FLAGS_map_offset_z} {}
 
 Status RTKLocalization::Start() {
-  AdapterManager::Init(FLAGS_rtk_adapter_config_file);
+  AdapterManager::Init(FLAGS_rtk_adapter_config_file);//根据conf/rtk_adapter.conf文件初始化适配器
 
   // start ROS timer, one-shot = false, auto-start = true
-  const double duration = 1.0 / FLAGS_localization_publish_freq;
+  const double duration = 1.0 / FLAGS_localization_publish_freq;//localization_publish_freq=100
   timer_ = AdapterManager::CreateTimer(ros::Duration(duration),
-                                       &RTKLocalization::OnTimer, this);
+                                       &RTKLocalization::OnTimer, this);//创建定时器
   apollo::common::monitor::MonitorBuffer buffer(&monitor_);
-  if (!AdapterManager::GetGps()) {
+  if (!AdapterManager::GetGps()) {                                      //获取gps，根据REGISTER_ADAPTER(Gps);展开，Get##name()
     buffer.ERROR() << "GPS input not initialized. Check file "
                    << FLAGS_rtk_adapter_config_file;
     buffer.PrintLog();
@@ -73,7 +73,7 @@ void RTKLocalization::OnTimer(const ros::TimerEvent &event) {
   }
 
   // Take a snapshot of the current received messages.
-  AdapterManager::Observe();
+  AdapterManager::Observe();                              //对当前接收到的消息进行快照。
 
   if (AdapterManager::GetGps()->Empty()) {
     AERROR << "GPS message buffer is empty.";
@@ -91,7 +91,7 @@ void RTKLocalization::OnTimer(const ros::TimerEvent &event) {
   }
 
   // publish localization messages
-  PublishLocalization();
+  PublishLocalization();                               //发布本地化消息
   service_started_ = true;
 
   // watch dog
@@ -158,7 +158,7 @@ bool RTKLocalization::FindMatchingIMU(const double gps_timestamp_sec,
     }
   } else {
     // give the newest imu, without extrapolation
-    *imu_msg = imu_adapter->GetLatestObserved();
+    *imu_msg = imu_adapter->GetLatestObserved();      //给出最新的imu，无需推断
 
     if (fabs(imu_msg->header().timestamp_sec() - gps_timestamp_sec) >
         FLAGS_report_gps_imu_time_diff_threshold) {
@@ -220,7 +220,7 @@ void RTKLocalization::InterpolateIMU(const Imu &imu1, const Imu &imu2,
 
 void RTKLocalization::PrepareLocalizationMsg(
     LocalizationEstimate *localization) {
-  const auto &gps_msg = AdapterManager::GetGps()->GetLatestObserved();
+  const auto &gps_msg = AdapterManager::GetGps()->GetLatestObserved();//给出最新的gps，无需推断
 
   bool imu_valid = true;
   Imu imu_msg;
@@ -231,7 +231,7 @@ void RTKLocalization::PrepareLocalizationMsg(
       imu_valid = false;
     }
   } else {
-    imu_msg = AdapterManager::GetImu()->GetLatestObserved();
+    imu_msg = AdapterManager::GetImu()->GetLatestObserved();//给出最新的imu，无需推断
   }
 
   if (imu_valid &&
@@ -351,13 +351,13 @@ void RTKLocalization::ComposeLocalizationMsg(
     }
   }
 }
-
+//
 void RTKLocalization::PublishLocalization() {
-  LocalizationEstimate localization;
-  PrepareLocalizationMsg(&localization);
+  LocalizationEstimate localization;                //创建消息对象localization.proto
+  PrepareLocalizationMsg(&localization);            //格式化localization
 
   // publish localization messages
-  AdapterManager::PublishLocalization(localization);
+  AdapterManager::PublishLocalization(localization);//发布本地化消息localization
   AINFO << "[OnTimer]: Localization message publish success!";
 }
 
