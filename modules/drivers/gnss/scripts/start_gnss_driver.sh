@@ -33,4 +33,8 @@ if  pidof -o %PPID -x "roscore" > /dev/null; then
 
 fi
 
-roslaunch gnss_driver gnss_driver.launch
+# roslaunch是一种工具，可以通过SSH在本地和远程轻松启动多个ROS 节点，
+# 以及在参数服务器上设置参数。它包括自动重生已经死亡的进程的选项。
+# roslaunch接收一个或多个XML配置文件（带有.launch扩展名），
+# 指定要设置的参数和要启动的节点，以及它们应运行的机器。
+roslaunch gnss_driver gnss_driver.launch    #根据 gnss_driver.launch文件信息 运行 gnss_driver

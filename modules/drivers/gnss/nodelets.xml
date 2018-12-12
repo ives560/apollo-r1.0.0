@@ -9,7 +9,8 @@
 </library>
 
 <library path="lib/libparser_nodelet">
-  <class name="gnss_driver/ParserNodelet"
+<!-- 库名 -->
+  <class name="gnss_driver/ParserNodelet"                 
          type="apollo::drivers::gnss::ParserNodelet"
          base_class_type="nodelet::Nodelet">
     <description>

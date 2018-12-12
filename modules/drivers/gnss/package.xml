@@ -9,9 +9,9 @@
   <license>Licensed under the Apache License, Version 2.0 </license>
 
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>nodelet</build_depend>
-  <build_depend>roscpp</build_depend>
+  <buildtool_depend>catkin</buildtool_depend>   <!-- catkin 是 ros 的编译工具 -->
+  <build_depend>nodelet</build_depend> <!-- ros nodelet包旨在提供一种在同一进程中运行多个算法的方法，算法之间的复制传输为零。 -->
+  <build_depend>roscpp</build_depend> <!-- roscpp是ROS的C ++实现。它提供了一个客户端库，使C ++程序员能够快速与ROS 主题， 服务和参数进行交互。 -->
   <build_depend>std_msgs</build_depend>
 
   <run_depend>nodelet</run_depend>

@@ -61,7 +61,7 @@ target_link_libraries(utils ${catkin_LIBRARIES} ${PROTOBUF_LIBRARIES})
 add_library(stream_nodelet src/stream_nodelet.cpp src/raw_stream.cpp src/impl/serial_stream.cpp src/impl/tcp_stream.cpp src/impl/udp_stream.cpp src/impl/ntrip_stream.cpp)
 target_link_libraries(stream_nodelet utils ${catkin_LIBRARIES} ${PROTOBUF_LIBRARIES})
 
-add_library(parser_nodelet src/parser_nodelet.cpp src/data_parser.cpp src/impl/novatel_parser.cpp)
+add_library(parser_nodelet src/parser_nodelet.cpp src/data_parser.cpp src/impl/novatel_parser.cpp)      #添加 parser_nodelet 库
 add_dependencies(parser_nodelet novatel_msgs_generate_messages_cpp)
 target_link_libraries(parser_nodelet utils ${catkin_LIBRARIES} ${PROTOBUF_LIBRARIES} proj)
 
@@ -72,7 +72,7 @@ add_executable(test_monitor tests/test_monitor.cpp)
 target_link_libraries(test_monitor utils ${catkin_LIBRARIES} ${PROTOBUF_LIBRARIES})
 
 install(
-     TARGETS stream_nodelet parser_nodelet utils test_monitor
+     TARGETS stream_nodelet parser_nodelet utils test_monitor       # 生成 parser_nodelet 库
      ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
      LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
      RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

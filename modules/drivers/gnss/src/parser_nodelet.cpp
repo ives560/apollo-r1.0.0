@@ -51,7 +51,7 @@ void ParserNodelet::onInit() {
     nh.param("raw_data_topic", raw_data_topic, std::string("/apollo/sensor/gnss/raw_data"));
     nh.param("gpgga_topic", gpgga_topic, std::string("/apollo/sensor/gnss/gpgga"));
     nh.param("corr_imu_topic", corr_imu_topic, std::string("/apollo/sensor/gnss/corrected_imu"));
-    nh.param("odometry_topic", odometry_topic, std::string("/apollo/sensor/gnss/odometry"));
+    nh.param("odometry_topic", odometry_topic, std::string("/apollo/sensor/gnss/odometry"));        //gps主题，向localization模块发送消息
     nh.param("gnss_status_topic", gnss_status_topic, std::string("/apollo/sensor/gnss/gnss_status"));
     nh.param("ins_status_topic", ins_status_topic, std::string("/apollo/sensor/gnss/ins_status"));
 
@@ -74,7 +74,7 @@ void ParserNodelet::onInit() {
 }
 }
 }
-
+//向ros 注册插件
 // Register this plugin with pluginlib.  Names must match nodelet_gnss.xml.
 //
 // parameters: package, class name, class type, base class type
