@@ -21,35 +21,33 @@ package apollo.localization;
 import "modules/common/proto/geometry.proto";
 
 message Pose {
-  // Position of the vehicle reference point (VRP) in the map reference frame.
-  // The VRP is the center of rear axle.
+  // 车辆参考点(VRP)在地图参考框架中的位置。
+  // VRP是后桥的中心。
   optional apollo.common.PointENU position = 1;
 
-  // A quaternion that represents the rotation from the map coordinate
-  // (East/North/Up) to the
-  // vehicle coordinate (Right/Forward/Up).
+  // 四元数表示从地图坐标(东/北/上)到车辆坐标(右/前/上)的旋转。
   optional apollo.common.Quaternion orientation = 2;
 
-  // Linear velocity of the VRP in the map reference frame.
-  // East/north/up in meters per second.
+  // VRP在地图参考系中的线速度。
+  // 东/北/上，单位是米每秒。
   optional apollo.common.Point3D linear_velocity = 3;
 
-  // Linear acceleration of the VRP in the map reference frame.
-  // East/north/up in meters per second.
+  // VRP在地图坐标系中的线性加速度。
+  // 东/北/上，单位是米每秒。
   optional apollo.common.Point3D linear_acceleration = 4;
 
-  // Angular velocity of the vehicle in the map reference frame.
-  // Around east/north/up axes in radians per second.
+  // 车辆在地图坐标系中的角速度。
+  // 沿 东/北/上 轴以每秒弧度表示。
   optional apollo.common.Point3D angular_velocity = 5;
 
   // heading
   optional double heading = 6;
 
-  // Linear acceleration of the VRP in the vehicle reference frame.
-  // Right/forward/up in meters per square second.
+  // 车辆参考系中VRP的线性加速度。
+  // 右/前/上 单位是米/平方秒。
   optional apollo.common.Point3D linear_acceleration_vrf = 7;
 
-  // Angular velocity of the vehicle in the vehicle reference frame.
-  // Around right/forward/up axes in radians per second.
+  // 车辆在车辆参考系中的角速度。
+  // 右/前/上 坐标轴，单位是弧度每秒。
   optional apollo.common.Point3D angular_velocity_vrf = 8;
 }
