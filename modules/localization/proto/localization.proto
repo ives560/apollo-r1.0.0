@@ -23,21 +23,19 @@ import "modules/localization/proto/pose.proto";
 import "modules/common/proto/geometry.proto";
 
 message Uncertainty {
-  // Standard deviation of position, east/north/up in meters.
+  // 位置的标准偏差，东/北/上，单位为米。
   optional apollo.common.Point3D position_std_dev = 1;
 
-  // Standard deviation of quaternion qx/qy/qz, unitless.
+  // 四元数qx/qy/qz的标准差，无单位。
   optional apollo.common.Point3D orientation_std_dev = 2;
 
-  // Standard deviation of linear velocity, east/north/up in meters per second.
+  // 线速度的标准差，东/北/上，单位是米每秒。
   optional apollo.common.Point3D linear_velocity_std_dev = 3;
 
-  // Standard deviation of linear acceleration, right/forward/up in meters per
-  // square second.
+  // 线性加速度的标准差，右/前/上 单位是米/平方秒。
   optional apollo.common.Point3D linear_acceleration_std_dev = 4;
 
-  // Standard deviation of angular velocity, right/forward/up in radians per
-  // second.
+  // 角速度的标准偏差，右/前/上单位是弧度每秒。
   optional apollo.common.Point3D angular_velocity_std_dev = 5;
 
   // TODO: Define covariance items when needed.
