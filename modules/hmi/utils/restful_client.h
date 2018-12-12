@@ -35,9 +35,8 @@ namespace hmi {
 /**
  * @class RestfulClient
  *
- * @brief Client to send request to restful APIs. RestfulClient class provides
- * two public functions, which support the construction of client with an APT
- * url and posting a proto to target API.
+ * @brief 客户端将请求发送到restful api。 
+ * RestfulClient类提供了两个公共函数，它们支持使用APT url构造客户端，并将proto消息发布到目标API。
  */
 class RestfulClient {
  public:
@@ -48,15 +47,14 @@ class RestfulClient {
   };
 
   /*
-   * @brief constructor, used explicit keyword to avoid implicit construction.
+   * @brief 构造函数，使用 explicit 关键字避免隐式构造。
    * It init client with an APT url
    * @param url the API url string.
    */
   explicit RestfulClient(const std::string& url) : url_(url) {}
 
   /*
-   * @brief post a proto to target API. Note that the data is transferred as
-   * JSON.
+   * @brief 发布一个proto消息到目标API。注意，数据是以JSON格式传输的。
    * @param proto the proto to be posted to target API.
    * @return the status define by google::protobuf::util::MessageToJsonString
    */

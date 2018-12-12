@@ -16,7 +16,7 @@
 
 #include "modules/hmi/utils/restful_client.h"
 
-#include <curlpp/Easy.hpp>
+#include <curlpp/Easy.hpp>        //C++ wrapper around libcURL http://www.curlpp.org
 #include <curlpp/Exception.hpp>
 #include <curlpp/Options.hpp>
 #include <curlpp/cURLpp.hpp>
