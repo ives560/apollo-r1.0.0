@@ -41,11 +41,10 @@ namespace common {
 /**
  * @class ApolloApp
  *
- * @brief The base module class to define the interface of an Apollo app.
- * An Apollo app runs infinitely until being shutdown by SIGINT or ROS. Many
- * essential components in Apollo, such as localization and control are examples
- * of Apollo apps. The APOLLO_MAIN macro helps developer to setup glog, gflag
- * and ROS in one line.
+ * @brief 定义Apollo应用程序接口的基本模块类。
+ * Apollo应用程序无限运行，直到被SIGINT或ROS关闭。
+ * Apollo中的许多重要组件，例如本地化和控制，都是Apollo应用程序的例子。
+ * APOLLO_MAIN宏帮助开发人员在一行中设置glog、gflag和ROS。
  */
 class ApolloApp {
  public:
@@ -55,8 +54,8 @@ class ApolloApp {
   virtual std::string Name() const = 0;
 
   /**
-   * @brief this is the entry point of an Apollo App. It initializes the app,
-   * starts the app, and stop the app when the ros has shutdown.
+   * @brief 这是Apollo应用程序的入口点。
+   * 它初始化该应用程序，启动该应用程序，并在ros关闭时停止该应用程序。
    */
   virtual int Spin();
 
@@ -67,28 +66,26 @@ class ApolloApp {
 
  protected:
   /**
-   * @brief The module initialization function. This is the first function being
-   * called when the App starts. Usually this function loads the configurations,
-   * subscribe the data from sensors or other modules.
+   * @brief 模块初始化函数。
+   * 这是应用程序启动时调用的第一个函数。
+   * 通常这个函数加载配置，从传感器或其他模块订阅数据。
    * @return Status initialization status
    */
   virtual apollo::common::Status Init() = 0;
 
   /**
-   * @brief The module start function. Apollo app usually triggered to execute
-   * in two ways: 1. Triggered by upstream messages, or 2. Triggered by timer.
-   * If an app is triggered by upstream messages, the Start() function usually
-   * register a call back function that will be called when an upstream message
-   * is received. If an app is triggered by timer, the Start() function usually
-   * register a timer callback function.
+   * @brief 模块启动函数。
+   * Apollo app通常以两种方式触发执行: 1. 由上游消息触发，2. 由定时器触发。
+   * 如果应用程序是由上游消息触发的，Start()函数通常注册一个回调函数，当接收到上游消息时将调用该函数。
+   * 如果应用程序是由计时器触发的，Start()函数通常注册一个计时器回调函数。
    * @return Status start status
    */
   virtual apollo::common::Status Start() = 0;
 
   /**
-   * @brief The module stop function. This function will be called when
-   * after ros::shutdown() has finished. In the default APOLLO_MAIN macro,
-   * ros::shutdown() is called when SIGINT is received.
+   * @brief 模块停止函数。
+   * 当ros::shutdown()函数完成后，将调用此函数。
+   * 在默认的APOLLO_MAIN宏中，当接收到SIGINT时调用ros::shutdown()。
    */
   virtual void Stop() = 0;
 

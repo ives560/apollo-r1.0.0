@@ -37,24 +37,24 @@ void ApolloApp::ReportModuleStatus(
 }
 
 int ApolloApp::Spin() {
-  ros::AsyncSpinner spinner(1);
-  auto status = Init();
+  ros::AsyncSpinner spinner(1);   //线程对象
+  auto status = Init();           //需要派生类重写Init，如Localization::Init()
   if (!status.ok()) {
     AERROR << Name() << " Init failed: " << status;
     ReportModuleStatus(apollo::hmi::ModuleStatus::UNINITIALIZED);
     return -1;
   }
   ReportModuleStatus(apollo::hmi::ModuleStatus::INITIALIZED);
-  status = Start();
+  status = Start();              //需要派生类重写Start，如Localization::Start()
   if (!status.ok()) {
     AERROR << Name() << " Start failed: " << status;
     ReportModuleStatus(apollo::hmi::ModuleStatus::STOPPED);
     return -2;
   }
   ReportModuleStatus(apollo::hmi::ModuleStatus::STARTED);
-  spinner.start();
-  ros::waitForShutdown();
-  Stop();
+  spinner.start();              //启动线程
+  ros::waitForShutdown();       //等待此节点关闭，可以是通过Ctrl-C
+  Stop();                       //需要派生类重写Stop，如Localization::Stop()
   ReportModuleStatus(apollo::hmi::ModuleStatus::STOPPED);
   AINFO << Name() << " exited.";
   return 0;
