@@ -14,10 +14,10 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include <chrono>
+#include <chrono>           //标准库头文件,此头文件是日期和时间库的一部分
 #include <sstream>
 #include <thread>
-#include "CivetServer.h"
+#include "CivetServer.h"   //Embedded C/C++ web server CivetWeb
 #include "gflags/gflags.h"
 #include "google/protobuf/util/json_util.h"
 
@@ -28,8 +28,8 @@
 
 DEFINE_string(static_file_dir, "modules/dreamview/frontend/dist",
               "The path to the dreamview distribution directory. The default "
-              "value points to built-in version from the Apollo project.");
-DEFINE_int32(server_port, 8888, "The port of backend webserver");
+              "value points to built-in version from the Apollo project."); //定义静态文件路径
+DEFINE_int32(server_port, 8888, "The port of backend webserver");           //定义端口号
 
 namespace apollo {
 namespace dreamview {
@@ -42,9 +42,8 @@ using Json = nlohmann::json;
 
 /**
  * @class SimulationWorldUpdater
- * @brief A wrapper around SimulationWorldService and WebsocketServer to keep
- * pushing SimulationWorld to frontend via websocket while handling the response
- * from frontend.
+ * @brief 一个包装器，围绕着SimulationWorldService和WebsocketServer，
+ * 通过websocket将SimulationWorld推送到前台，同时处理前台的响应。
  */
 class SimulationWorldUpdater {
  public:
@@ -59,9 +58,8 @@ class SimulationWorldUpdater {
   }
 
   /**
-   * @brief The callback function to get updates from SimulationWorldService,
-   * and push them to the frontend clients via websocket when the periodic timer
-   * is triggered.
+   * @brief 回调函数从SimulationWorldService获取更新，
+   * 并在触发定期计时器时通过websocket将更新推送到前端客户端。
    * @param event Timer event
    */
   void OnPushTimer(const ros::TimerEvent& event) {
