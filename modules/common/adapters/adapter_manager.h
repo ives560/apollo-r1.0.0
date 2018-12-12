@@ -67,9 +67,9 @@ namespace adapter {
   static void Publish##name(const name##Adapter::DataType &data) {             \// 发布Topic最新数据
     instance()->InternalPublish##name(data);                                   \
   }                                                                            \
-  static void Fill##name##Header(const std::string &module_name,               \// 填充Topic的头部信息
+  static void Fill##name##Header(const std::string &module_name,               \
                                  apollo::common::Header *header) {             \
-    instance()->name##_->FillHeader(module_name, header);                      \
+    instance()->name##_->FillHeader(module_name, header);                      \// 向头部添加 module_name,timestamp_sec,sequence_num 字段
   }                                                                            \
   static void Set##name##Callback(name##Adapter::Callback callback) {          \
     CHECK(instance()->name##_)                                                 \

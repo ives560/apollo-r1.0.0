@@ -218,6 +218,7 @@ void RTKLocalization::InterpolateIMU(const Imu &imu1, const Imu &imu2,
   }
 }
 
+//获取 localization 消息
 void RTKLocalization::PrepareLocalizationMsg(
     LocalizationEstimate *localization) {
   const auto &gps_msg = AdapterManager::GetGps()->GetLatestObserved();//给出最新的gps，无需推断
@@ -244,9 +245,10 @@ void RTKLocalization::PrepareLocalizationMsg(
            << imu_msg.header().timestamp_sec() << "]";
   }
 
-  ComposeLocalizationMsg(gps_msg, imu_msg, localization);
+  ComposeLocalizationMsg(gps_msg, imu_msg, localization);//将gps_msg, imu_msg 组合为localization
 }
 
+//将gps_msg, imu_msg 组合为localization
 void RTKLocalization::ComposeLocalizationMsg(
     const ::apollo::localization::Gps &gps_msg,
     const ::apollo::localization::Imu &imu_msg,
@@ -354,7 +356,7 @@ void RTKLocalization::ComposeLocalizationMsg(
 //
 void RTKLocalization::PublishLocalization() {
   LocalizationEstimate localization;                //创建消息对象localization.proto
-  PrepareLocalizationMsg(&localization);            //格式化localization
+  PrepareLocalizationMsg(&localization);            ////获取 localization 消息
 
   // publish localization messages
   AdapterManager::PublishLocalization(localization);//发布本地化消息localization
