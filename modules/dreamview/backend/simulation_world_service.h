@@ -37,6 +37,7 @@ namespace dreamview {
 
 namespace internal {
 
+//模板UpdateSimulationWorld定义
 template <typename AdapterType>
 void UpdateSimulationWorld(const typename AdapterType::DataType &data,
                            SimulationWorld *world);
@@ -63,10 +64,8 @@ void UpdateSimulationWorld<apollo::common::adapter::PlanningTrajectoryAdapter>(
 
 /**
  * @class SimulationWorldService
- * @brief This is a major component of the Simulation backend, which
- * maintains a SimulationWorld object and keeps updating it. The SimulationWorld
- * represents the most up-to-date information about all the objects
- * in the emulated world, including the car, the planning trajectory, etc.
+ * @brief 这是仿真后台的一个主要组件，它维护一个SimulationWorld对象并不断更新它。
+ * SimulationWorld表示仿真世界中所有对象的最新信息，包括汽车、规划轨迹等。
  * NOTE: This class is not thread-safe.
  */
 class SimulationWorldService {
@@ -105,19 +104,18 @@ class SimulationWorldService {
   const SimulationWorld &Update();
 
   /**
-   * @brief Check whether the SimulationWorld object has enough information.
-   * The backend won't push the SimulationWorld to frontend if it is not ready.
+   * @brief 检查SimulationWorld对象是否有足够的信息。
+   * 如果没有准备好，后端不会将SimulationWorld推送到前端。
    * @return True if the object is ready to push.
    */
   bool ReadyToPush() const {
-    return world_.has_auto_driving_car();
+    return world_.has_auto_driving_car();       //auto_driving_car字段是否有数据
   }
 
  private:
   /**
-   * @brief Register a callback on the adatper manager to update the
-   * SimulationWorld object upon receiving a new message. This is not
-   * guarded by lock since we are using single threaded ROS spinner.
+   * @brief 在adatper管理器上注册一个回调函数，以便在接收新消息时更新SimulationWorld对象。
+   * 由于我们使用的是单线程ROS旋转器，所以没有锁来保护它。
    */
   template <typename AdapterType>
   void RegisterDataCallback(const std::string &adapter_name,
@@ -127,6 +125,7 @@ class SimulationWorldService {
                                 "Please check the adapter manager ";
     }
 
+    //Set##name##Callback
     adapter->SetCallback(
         std::bind(&internal::UpdateSimulationWorld<AdapterType>,
                   std::placeholders::_1, &world_));
@@ -134,7 +133,7 @@ class SimulationWorldService {
 
   // The underlying SimulationWorld object, owned by the
   // SimulationWorldService instance.
-  SimulationWorld world_;
+  SimulationWorld world_;           //SimulationWorld 消息，由simulation_world.proto文件生成
 };
 
 }  // namespace dreamview

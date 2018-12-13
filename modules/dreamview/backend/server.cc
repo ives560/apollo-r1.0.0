@@ -63,17 +63,17 @@ class SimulationWorldUpdater {
    * @param event Timer event
    */
   void OnPushTimer(const ros::TimerEvent& event) {
-    if (!sim_world_service_.ReadyToPush()) {
+    if (!sim_world_service_.ReadyToPush()) {                        //检查SimulationWorld对象是否有足够的信息。
       AWARN << "Not sending simulation world as the data is not ready!";
       return;
     }
-    auto json = sim_world_service_.GetUpdateAsJson();
-    websocket_.SendData(json.dump());
+    auto json = sim_world_service_.GetUpdateAsJson();               //返回SimulationWorld对象的json。
+    websocket_.SendData(json.dump());                               //将数据发送到所有连接的客户端。
   }
 
  private:
-  SimulationWorldService sim_world_service_;
-  WebsocketServer websocket_;
+  SimulationWorldService sim_world_service_;                        //仿真后台的一个主要组件，它维护一个SimulationWorld对象并不断更新它。
+  WebsocketServer websocket_;                                       //websocket协议的服务器。
 };
 
 }  // namespace dreamview
@@ -82,6 +82,7 @@ class SimulationWorldUpdater {
 /// Time interval, in seconds, between pushing SimulationWorld to frontend.
 static constexpr double kTimeInterval = 0.1;
 
+//后台入口
 int main(int argc, char** argv) {
   using apollo::common::adapter::AdapterManager;
   using apollo::dreamview::SimulationWorldUpdater;
@@ -90,13 +91,14 @@ int main(int argc, char** argv) {
   ::google::ParseCommandLineFlags(&argc, &argv, true);
   ros::init(argc, argv, "dreamview");
 
-  // Initialize and run the static file server which serves the
-  // dreamview htmls and javascripts.
+  // 初始化并运行服务于dreamview html和javas脚本的静态文件服务器。
   CivetServer server({"document_root", FLAGS_static_file_dir, "listening_ports",
                       std::to_string(FLAGS_server_port)});
 
   // Websocket port number is web server port number + 1.
   SimulationWorldUpdater updater(FLAGS_server_port + 1);
+
+  //创建定时器,将SimulationWorld推送到前端
   auto timer = AdapterManager::CreateTimer(ros::Duration(kTimeInterval),
                                            &SimulationWorldUpdater::OnPushTimer,
                                            &updater);

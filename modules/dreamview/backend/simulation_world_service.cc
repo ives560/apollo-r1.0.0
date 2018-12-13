@@ -89,6 +89,7 @@ Object::DisengageType DeduceDisengageType(const ::Chassis &chassis) {
 
 namespace internal {
 
+//模板特化为MonitorAdapter
 template <>
 void UpdateSimulationWorld<MonitorAdapter>(const MonitorMessage &monitor_msg,
                                            SimulationWorld *world) {
@@ -122,6 +123,7 @@ void UpdateSimulationWorld<MonitorAdapter>(const MonitorMessage &monitor_msg,
       ToSecond(Clock::Now()));
 }
 
+//模板特化为LocalizationAdapter
 template <>
 void UpdateSimulationWorld<LocalizationAdapter>(
     const LocalizationEstimate &localization, SimulationWorld *world) {
@@ -149,6 +151,7 @@ void UpdateSimulationWorld<LocalizationAdapter>(
   world->set_timestamp_sec(localization.header().timestamp_sec());
 }
 
+//ChassisAdapter
 template <>
 void UpdateSimulationWorld<ChassisAdapter>(const Chassis &chassis,
                                            SimulationWorld *world) {
@@ -188,6 +191,7 @@ void UpdateSimulationWorld<ChassisAdapter>(const Chassis &chassis,
   world->set_timestamp_sec(chassis.header().timestamp_sec());
 }
 
+//模板特化为PlanningTrajectoryAdapter
 template <>
 void UpdateSimulationWorld<PlanningTrajectoryAdapter>(
     const ADCTrajectory &trajectory, SimulationWorld *world) {
@@ -242,7 +246,7 @@ SimulationWorldService::SimulationWorldService() {
   world_.set_map_md5("initialize");
   AdapterManager::Init();
   VehicleConfigHelper::Init();
-  RegisterDataCallback("Monitor", AdapterManager::GetMonitor());
+  RegisterDataCallback("Monitor", AdapterManager::GetMonitor());//在adatper管理器上注册一个回调函数，以便在接收新消息时更新SimulationWorld对象。
   RegisterDataCallback("Chassis", AdapterManager::GetChassis());
   RegisterDataCallback("Localization", AdapterManager::GetLocalization());
   RegisterDataCallback("Planning", AdapterManager::GetPlanningTrajectory());

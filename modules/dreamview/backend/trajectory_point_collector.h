@@ -36,8 +36,7 @@ namespace util {
 /**
  * @class TrajectoryPointCollector
  *
- * @brief A utility class that helps simplify the process of adding trajectory
- * points to the SimulationWorld object.
+ * @brief 一个实用程序类，它帮助简化向SimulationWorld对象添加轨迹点的过程。
  * The logic is that whenever a new trajectory point is collected, it
  * will create a trajectory segment with its predecessor (except for
  * the first-ever collected trajectory point, obviously, who has no

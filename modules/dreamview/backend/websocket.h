@@ -29,7 +29,7 @@
 #include <thread>
 
 #include "third_party/json/json.hpp"
-#include "websocketpp/client.hpp"
+#include "websocketpp/client.hpp"                   // C++ websocket client/server library http://www.zaphoyd.com/websocketpp
 #include "websocketpp/config/asio_no_tls.hpp"
 #include "websocketpp/config/asio_no_tls_client.hpp"
 #include "websocketpp/server.hpp"
@@ -44,12 +44,10 @@ namespace dreamview {
 /**
  * @class WebsocketServer
  *
- * @brief The WebsocketServer, built on top of the websocketpp library,
- * represents a server endpoint that follows the websocket protocol.
- * When started, it will launch an acceptor to accept incoming connections,
- * and manages a pool of connections when running. Each connection is between
- * the server and a client endpoint. The SendData() method is used to push data
- * to all the connected clients.
+ * @brief 构建在websocketpp库之上的WebsocketServer表示遵循websocket协议的服务器端点。
+ * 启动时，它将启动一个接受器来接收传入的连接，并在运行时管理连接池。
+ * 每个连接都在服务器和客户机端点之间。
+ * SendData()方法用于将数据推送到所有连接的客户机。
  */
 class WebsocketServer {
  public:
@@ -91,27 +89,25 @@ class WebsocketServer {
   ~WebsocketServer();
 
   /**
-   * @brief Call this method to actually run the server. This method will
-   * create a BACKGROUND THREAD for the server listeners and event handlers.
+   * @brief 调用此方法以实际运行服务器。该方法将为服务器侦听器和事件处理程序创建一个后台线程。
    *
    * NOTE: This method does not block.
    */
   void Run();
 
   /**
-   * @brief This method will stop listening for new connections, close all the
-   * current connections, and finally stop the BACKGROUND THREAD of the server.
+   * @brief 此方法将停止侦听新连接，关闭所有当前连接，并最终停止服务器的后台线程。
    */
   void Stop();
 
   /**
-   * @brief Sends the provided data to all the connected clients.
+   * @brief 将提供的数据发送到所有连接的客户端。
    * @param data The message string to be sent.
    */
   bool SendData(const std::string &data);
 
   /**
-   * @brief Add a new message handler for a message type.
+   * @brief 为消息类型添加新的消息处理程序。
    * @param type The name/key to identify the message type.
    * @param handler The function to handle the received message.
    */
@@ -150,9 +146,7 @@ class WebsocketServer {
   // proactively or passively.
   void OnClose(ConnectionHandle handle);
 
-  // OnMessage will be called when the server receives a message from
-  // client, it will dispatch the message to the corresponding handler
-  // based on the message type.
+  // 当服务器从客户机接收到消息时将调用OnMessage，它将根据消息类型将消息分派给相应的处理程序。
   void OnMessage(ConnectionHandle handle, MessagePtr message);
 };
 

@@ -137,6 +137,10 @@ void WebsocketServer::OnClose(ConnectionHandle handle) {
   AINFO << "Connection closed. Total connections: " << connections_.size();
 }
 
+  /**
+   * @brief 将数据发送到所有连接的客户端。
+   * @param data The message string to be sent.
+   */
 bool WebsocketServer::SendData(const std::string &data) {
   std::unique_lock<std::mutex> lock(mutex_);
   if (connections_.empty()) {
