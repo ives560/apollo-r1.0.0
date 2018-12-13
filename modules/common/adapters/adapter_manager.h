@@ -47,14 +47,14 @@ namespace adapter {
 /// REGISTER_ADAPTER(CarStatus) write an adapter class called
 /// CarStatusAdapter, and call EnableCarStatus(`car_status_topic`,
 /// true, `callback`(if there's one)) in AdapterManager.
-#define REGISTER_ADAPTER(name)                                                 \
+#define REGISTER_ADAPTER(name)                                                 \//在AdapterManager类中调用
  public:                                                                       \
   static void Enable##name(const std::string &topic_name,                      \// 打开对该Topic数据的操作
                            AdapterConfig::Mode mode,                           \
                            int message_history_limit) {                        \
     CHECK(message_history_limit > 0)                                           \
         << "Message history limit must be greater than 0";                     \
-    instance()->InternalEnable##name(topic_name, mode, message_history_limit); \//instance()为AdapterManager类的单例
+    instance()->InternalEnable##name(topic_name, mode, message_history_limit); \// instance()为AdapterManager类的单例
   }                                                                            \
   static name##Adapter *Get##name() {                                          \// 获取Topic适配器
     return instance()->InternalGet##name();                                    \
@@ -71,7 +71,7 @@ namespace adapter {
                                  apollo::common::Header *header) {             \
     instance()->name##_->FillHeader(module_name, header);                      \// 向头部添加 module_name,timestamp_sec,sequence_num 字段
   }                                                                            \
-  static void Set##name##Callback(name##Adapter::Callback callback) {          \
+  static void Set##name##Callback(name##Adapter::Callback callback) {          \//设置回掉函数
     CHECK(instance()->name##_)                                                 \
         << "Initialize adapter before setting callback";                       \
     instance()->name##_->SetCallback(callback);                                \
@@ -83,21 +83,21 @@ namespace adapter {
   }                                                                            \
                                                                                \
  private:                                                                      \
-  std::unique_ptr<name##Adapter> name##_;                                      \
-  ros::Publisher name##publisher_;                                             \
-  ros::Subscriber name##subscriber_;                                           \
+  std::unique_ptr<name##Adapter> name##_;                                      \// name##Adapter类的智能指针
+  ros::Publisher name##publisher_;                                             \// ros Publisher
+  ros::Subscriber name##subscriber_;                                           \// ros Subscriber
                                                                                \
   void InternalEnable##name(const std::string &topic_name,                     \// 生效Topic，实例化消息管理器  
                             AdapterConfig::Mode mode,                          \
                             int message_history_limit) {                       \
     name##_.reset(                                                             \
         new name##Adapter(#name, topic_name, message_history_limit));          \
-    if (mode != AdapterConfig::PUBLISH_ONLY && node_handle_) {                 \
+    if (mode != AdapterConfig::PUBLISH_ONLY && node_handle_) {                 \// 根据配置订阅主题
       name##subscriber_ = node_handle_->subscribe(                             \
           topic_name, message_history_limit,                                   \
-          &name##Adapter::OnReceive, name##_.get());                           \
+          &name##Adapter::OnReceive, name##_.get());                           \//接收到订阅的主题时执行name##Adapter::OnReceive函数
     }                                                                          \
-    if (mode != AdapterConfig::RECEIVE_ONLY && node_handle_) {                 \
+    if (mode != AdapterConfig::RECEIVE_ONLY && node_handle_) {                 \// 根据配置发布主题
       name##publisher_ = node_handle_->advertise<name##Adapter::DataType>(     \
           topic_name, message_history_limit);                                  \
     }                                                                          \
@@ -148,9 +148,8 @@ class AdapterManager {
   static void Observe();
 
   /**
-   * @brief create a timer which will call a callback at the specified
-   * rate. It takes a class member function, and a bare pointer to the
-   * object to call the method on.
+   * @brief 创建一个计时器，它将以指定的速率调用回调。
+   * 它需要一个类成员函数和一个指向对象的空指针来调用该方法。
    */
   template <class T>
   static ros::Timer CreateTimer(ros::Duration period,

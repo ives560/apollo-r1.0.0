@@ -38,6 +38,7 @@
  * @namespace apollo::common::adapter
  * @brief This is an agglomeration of all the message adapters supported that
  * specializes the adapter template.
+ * 由Adapter类模板定义，在adapter.h文件
  */
 namespace apollo {
 namespace common {

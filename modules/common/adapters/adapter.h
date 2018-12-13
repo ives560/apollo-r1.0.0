@@ -47,11 +47,9 @@ namespace adapter {
 
 /**
  * @class Adapter
- * @brief this class serves as the interface and a layer of
- * abstraction for Apollo modules to interact with various I/O (e.g.
- * ROS). The adapter will also store history data, so that other
- * Apollo modules can get access to both the current and the past data
- * without having to handle communication protocols directly.
+ * @brief 该类充当Apollo模块与各种I/O(例如ROS)交互的接口和抽象层。
+ * 适配器还将存储历史数据，以便其他Apollo模块可以访问当前和过去的数据，而不必直接处理通信协议。
+ * 模板类
  *
  * \par
  * Each \class Adapter instance only works with one single topic and
@@ -137,8 +135,7 @@ class Adapter {
   }
 
   /**
-   * @brief the callback that will be invoked whenever a new
-   * message is received.
+   * @brief 每当接收到新消息时将被调用的回调。
    * @param message the newly received message.
    */
   void OnReceive(const D &message) {
@@ -211,9 +208,7 @@ class Adapter {
   Iterator end() const { return observed_queue_.end(); }
 
   /**
-   * @brief registers the provided callback function to the adapter,
-   * so that the callback function will be called once right after the
-   * message hits the adapter.
+   * @brief 将提供的回调函数注册到适配器，以便在消息到达适配器之后立即调用回调函数一次。
    * @param callback the callback with signature void(const D &).
    */
   void SetCallback(Callback callback) { receive_callback_ = callback; }
@@ -308,7 +303,7 @@ class Adapter {
   }
 
   /**
-   * @brief proactively invokes the callback with the specified data.
+   * @brief 使用指定的数据主动调用回调。
    * @param data the specified data.
    */
   void FireCallback(const D &data) {
